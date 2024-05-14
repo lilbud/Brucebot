@@ -32,7 +32,7 @@ async def setlist_finder(ctx: commands.Context, date: str = "") -> None:  # noqa
 
         cur.execute(
             """SELECT set_type FROM (SELECT DISTINCT ON (set_type) * FROM SETLISTS WHERE
-            set_type SIMILAR TO '%(Soundcheck|Rehearsal|Pre-)%') p""",
+            set_type SIMILAR TO '%(Soundcheck|Rehearsal)%') p""",
         )
 
         sets = cur.fetchall()
