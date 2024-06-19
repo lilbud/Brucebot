@@ -7,7 +7,7 @@ from error_message import error_message
 from import_stuff import bot, cur, date_in_db, location_name_get, main_url
 
 
-@bot.hybrid_group(name="setlist")
+@bot.hybrid_command(aliases=["sl", "setlist", "show"])
 async def setlist_finder(ctx: commands.Context, date: str = "") -> None:  # noqa: C901, PLR0912, PLR0915
     """Get setlist based on input date."""
     if date == "":
@@ -152,9 +152,3 @@ async def setlist_finder(ctx: commands.Context, date: str = "") -> None:  # noqa
         await ctx.send(embed=embed)
     else:
         await ctx.send(f"{error_message('date')} - {date}")
-
-
-@setlist_finder.command(name="sl")
-async def sl_finder(ctx: commands.Context, date: str = "") -> None:
-    """Get setlist based on input date."""
-    await setlist_finder(ctx, date)
