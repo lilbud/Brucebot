@@ -122,6 +122,9 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 conn = psycopg2.connect(DATABASE_URL, sslmode="require")
 cur = conn.cursor()
 
+OWNER_USERID = 238471992393728000
+GUILD_ID = discord.Object(id=735698850802565171)
+
 intents = discord.Intents.default()
 intents.message_content = True
 
