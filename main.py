@@ -29,7 +29,7 @@ async def sync(ctx: Context) -> None:
     """Sync command."""
     print("sync command")
     if ctx.author.id == OWNER_USERID:
-        await bot.tree.copy_global_to(guild=GUILD_ID)
+        bot.tree.copy_global_to(guild=GUILD_ID)
         await bot.tree.sync(guild=GUILD_ID)
         await ctx.send("Command tree synced.")
     else:
