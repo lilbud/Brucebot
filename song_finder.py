@@ -20,7 +20,7 @@ def song_name_fix(song: str) -> str:
     return song
 
 
-@bot.hybrid_command(name="song")
+@bot.command(name="song")
 async def song_finder(ctx: commands.Context, *, args: str = "") -> None:
     """Get info on inputted song."""
     args = (
