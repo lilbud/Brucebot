@@ -24,7 +24,7 @@ def song_name_fix(song: str) -> str:
 async def song_finder(ctx: commands.Context, *, args: str = "") -> None:
     """Get info on inputted song."""
     if ctx.author.id == 172307315549143040:
-        await ctx.send("https://www.youtube.com/watch?v=i9AT3jjAP0Y")
+        await ctx.send("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     else:
         args = (
             args.replace("’", "''")
