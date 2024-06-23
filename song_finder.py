@@ -25,59 +25,66 @@ async def song_finder(ctx: commands.Context, *, args: str = "") -> None:
     """Get info on inputted song."""
     if ctx.author.id == 172307315549143040:
         await ctx.send("https://www.youtube.com/watch?v=i9AT3jjAP0Y")
-
-    args = (
-        args.replace("’", "''").replace("‘", "''").replace("”", '"').replace("‟", '"')  # noqa: RUF001
-    )
-
-    if len(args) > 1:
-        song_name = song_name_fix(args)
-
-        cur.execute("""SELECT song_name FROM SONGS""")
-
-        songs = cur.fetchall()
-
-        result = process.extractOne(song_name, songs)[0]
-
-        cur.execute(
-            """SELECT * FROM SONGS WHERE song_name = %s""",
-            (result[0],),
+    else:
+        args = (
+            args.replace("’", "''")
+            .replace("‘", "''")
+            .replace("”", '"')
+            .replace("‟", '"')
         )
 
-        s = cur.fetchone()
+        if len(args) > 1:
+            song_name = song_name_fix(args)
 
-        if s:
-            embed = create_embed(s[2], f"[Brucebase Song Page]({main_url}{s[1]})", ctx)
+            cur.execute("""SELECT song_name FROM SONGS""")
 
-            embed.add_field(
-                name="",
-                value=f"[Lyrics]({main_url}{s[1].replace('/song:', '/lyrics:')})",
-                inline=False,
+            songs = cur.fetchall()
+
+            result = process.extractOne(song_name, songs)[0]
+
+            cur.execute(
+                """SELECT * FROM SONGS WHERE song_name = %s""",
+                (result[0],),
             )
 
-            if s[5] != "" and int(s[5]) > 0:
-                first = re.search(r"\d{4}-\d{2}-\d{2}\w?", s[3])[0]
-                last = re.search(r"\d{4}-\d{2}-\d{2}\w?", s[4])[0]
+            s = cur.fetchone()
 
-                embed.add_field(name="Performances:", value=s[5], inline=True)
-                embed.add_field(
-                    name="First Played:",
-                    value=f"[{first}]({main_url}{s[3]})",
-                    inline=True,
+            if s:
+                embed = create_embed(
+                    s[2],
+                    f"[Brucebase Song Page]({main_url}{s[1]})",
+                    ctx,
                 )
+
                 embed.add_field(
-                    name="Last Played:",
-                    value=f"[{last}]({main_url}{s[4]})",
-                    inline=True,
+                    name="",
+                    value=f"[Lyrics]({main_url}{s[1].replace('/song:', '/lyrics:')})",
+                    inline=False,
                 )
-                embed.add_field(name="Show Opener:", value=s[6], inline=True)
-                embed.add_field(name="Show Closer:", value=s[7], inline=True)
-                embed.add_field(name="Frequency:", value=f"{s[8]}%", inline=True)
+
+                if s[5] != "" and int(s[5]) > 0:
+                    first = re.search(r"\d{4}-\d{2}-\d{2}\w?", s[3])[0]
+                    last = re.search(r"\d{4}-\d{2}-\d{2}\w?", s[4])[0]
+
+                    embed.add_field(name="Performances:", value=s[5], inline=True)
+                    embed.add_field(
+                        name="First Played:",
+                        value=f"[{first}]({main_url}{s[3]})",
+                        inline=True,
+                    )
+                    embed.add_field(
+                        name="Last Played:",
+                        value=f"[{last}]({main_url}{s[4]})",
+                        inline=True,
+                    )
+                    embed.add_field(name="Show Opener:", value=s[6], inline=True)
+                    embed.add_field(name="Show Closer:", value=s[7], inline=True)
+                    embed.add_field(name="Frequency:", value=f"{s[8]}%", inline=True)
+                else:
+                    embed.add_field(name="Performances:", value="0", inline=True)
+
+                await ctx.send(embed=embed)
             else:
-                embed.add_field(name="Performances:", value="0", inline=True)
-
-            await ctx.send(embed=embed)
+                await ctx.send(f"\nNo Results Found For: {args}")
         else:
-            await ctx.send(f"\nNo Results Found For: {args}")
-    else:
-        await ctx.send(error_message("song"))
+            await ctx.send(error_message("song"))
