@@ -21,10 +21,10 @@ from tour_finder import tour_stats
 @bot.event
 async def on_ready() -> None:
     """Message to send in log if online and ready."""
-    await bot.tree.copy_global_to(guild=discord.object("363116664558059521"))
-    await bot.tree.copy_global_to(guild=discord.object("735698850802565171"))
-    await bot.tree.sync(guild=discord.object("363116664558059521"))
-    await bot.tree.sync(guild=discord.object("735698850802565171"))
+    # await bot.tree.copy_global_to(guild=discord.object("363116664558059521"))
+    # await bot.tree.copy_global_to(guild=discord.object("735698850802565171"))
+    # await bot.tree.sync(guild=discord.object("363116664558059521"))
+    # await bot.tree.sync(guild=discord.object("735698850802565171"))
 
     print(f"Bot online and logged in as {bot.user}")
 
